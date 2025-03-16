@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Staff - Vicky Hair Salon{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Edit Staff Member</h1>
+        <a href="{{ url_for('staff_list') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i> Back to Staff List
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ staff.name }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role</label>
+                    <select class="form-select" id="role" name="role" required>
+                        <option value="">Select a role</option>
+                        <option value="Owner" {% if staff.role == 'Owner' %}selected{% endif %}>Owner</option>
+                        <option value="Stylist" {% if staff.role == 'Stylist' %}selected{% endif %}>Stylist</option>
+                        <option value="Assistant" {% if staff.role == 'Assistant' %}selected{% endif %}>Assistant</option>
+                        <option value="Colorist" {% if staff.role == 'Colorist' %}selected{% endif %}>Colorist</option>
+                        <option value="Receptionist" {% if staff.role == 'Receptionist' %}selected{% endif %}>Receptionist</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="commission_rate" class="form-label">Commission Rate (%)</label>
+                    <input type="number" class="form-control" id="commission_rate" name="commission_rate"
+                           min="0" max="100" step="1" value="{{ commission_percentage|default(staff.commission_rate * 100) }}" required>
+                    <div class="form-text">Enter the percentage (0-100). For example, 50 means 50%.</div>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i> Update Staff Member
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Add a range slider for commission rate
+        const commissionInput = $('#commission_rate');
+        const currentValue = commissionInput.val();
+
+        // Add a display for the current value
+        commissionInput.after('<div class="mt-2"><span id="commission_display">' + currentValue + '%</span></div>');
+
+        // Update the display when the input changes
+        commissionInput.on('input', function() {
+            $('#commission_display').text($(this).val() + '%');
+        });
+    });
+</script>
+{% endblock %}

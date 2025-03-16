@@ -1,0 +1,2 @@
+username,password_hash,role
+admin,scrypt:32768:8:1$LPIoCBEKBMGRP2Jq$3fbcd3e2494dcc33460c70c9e838bcafe8dc69392497a4f64f52010024008eec6c892df10882e0ea752e2a7dd5b6ede9a120b71aead2fb865e79702ad61e3fa3,admin

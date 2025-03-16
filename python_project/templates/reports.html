@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Reports - Vicky Hair Salon{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4">Reports</h1>
+    
+    <div class="row">
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-day fa-3x mb-3 text-primary"></i>
+                    <h5 class="card-title">Daily Report</h5>
+                    <p class="card-text">View transactions and payouts for a specific day.</p>
+                    <a href="{{ url_for('daily_report') }}" class="btn btn-primary">Generate Report</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-alt fa-3x mb-3 text-success"></i>
+                    <h5 class="card-title">Monthly Report</h5>
+                    <p class="card-text">View monthly summaries of revenue and payouts.</p>
+                    <a href="{{ url_for('monthly_report') }}" class="btn btn-success">Generate Report</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-chart-line fa-3x mb-3 text-info"></i>
+                    <h5 class="card-title">Performance Report</h5>
+                    <p class="card-text">Analyze staff performance metrics.</p>
+                    <a href="{{ url_for('performance_report') }}" class="btn btn-info">Generate Report</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-money-bill-wave fa-3x mb-3 text-warning"></i>
+                    <h5 class="card-title">Payout Report</h5>
+                    <p class="card-text">Calculate staff payouts based on commission rates.</p>
+                    <a href="{{ url_for('payout_report') }}" class="btn btn-warning">Generate Report</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>Report Information</h5>
+        </div>
+        <div class="card-body">
+            <p>The salon management system provides various reports to help you analyze your business performance:</p>
+            
+            <ul>
+                <li><strong>Daily Report:</strong> Shows all transactions for a specific day, including customer details, services, and staff payouts.</li>
+                <li><strong>Monthly Report:</strong> Provides a monthly summary of revenue and payouts for each staff member.</li>
+                <li><strong>Performance Report:</strong> Analyzes staff performance metrics such as customer count, average revenue per customer, and total revenue.</li>
+                <li><strong>Payout Report:</strong> Calculates payouts for each staff member based on their commission rates and transaction amounts.</li>
+            </ul>
+            
+            <p>All reports can be exported as CSV files for further analysis or record-keeping.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

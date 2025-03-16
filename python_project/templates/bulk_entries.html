@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Bulk Entries - Vicky Hair Salon{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Bulk Entries</h1>
+        <a href="{{ url_for('add_bulk_entry') }}" class="btn btn-primary">
+            <i class="fas fa-plus-circle me-2"></i> Add Bulk Entry
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped" id="entriesTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Staff</th>
+                            <th>Customer Count</th>
+                            <th>Total Amount</th>
+                            <th>Payout</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in entries %}
+                        <tr>
+                            <td>{{ entry.date }}</td>
+                            <td>
+                                {% if entry.staff_id in staff_dict %}
+                                    {{ staff_dict[entry.staff_id].name }}
+                                {% else %}
+                                    Unknown (ID: {{ entry.staff_id }})
+                                {% endif %}
+                            </td>
+                            <td>{{ entry.count }}</td>
+                            <td>${{ entry.total }}</td>
+                            <td>
+                                {% if entry.staff_id in staff_dict %}
+                                    ${{ (entry.total * staff_dict[entry.staff_id].commission_rate)|round(2) }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-outline-info" 
+                                        data-bs-toggle="modal" data-bs-target="#detailsModal{{ entry.entry_id }}">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                
+                                <!-- Modal for details -->
+                                <div class="modal fade" id="detailsModal{{ entry.entry_id }}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Bulk Entry Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><strong>Date:</strong> {{ entry.date }}</p>
+                                                <p><strong>Staff:</strong> 
+                                                    {% if entry.staff_id in staff_dict %}
+                                                        {{ staff_dict[entry.staff_id].name }}
+                                                    {% else %}
+                                                        Unknown (ID: {{ entry.staff_id }})
+                                                    {% endif %}
+                                                </p>
+                                                <p><strong>Customer Count:</strong> {{ entry.count }}</p>
+                                                <p><strong>Total Amount:</strong> ${{ entry.total }}</p>
+                                                
+                                                <h6>Individual Amounts:</h6>
+                                                <ul class="list-group">
+                                                    {% for amount in entry.amounts %}
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        Customer {{ loop.index }}
+                                                        <span class="badge bg-primary rounded-pill">${{ amount }}</span>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">No bulk entries found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

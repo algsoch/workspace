@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Daily Entries - Vicky Hair Salon{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Daily Entries</h1>
+        <a href="{{ url_for('add_daily_entry') }}" class="btn btn-primary">
+            <i class="fas fa-plus-circle me-2"></i> Add Daily Entry
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped" id="entriesTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Staff</th>
+                            <th>Customer</th>
+                            <th>Service</th>
+                            <th>Amount</th>
+                            <th>Payout</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in entries %}
+                        <tr>
+                            <td>{{ entry.date }}</td>
+                            <td>
+                                {% if entry.staff_id in staff_dict %}
+                                    {{ staff_dict[entry.staff_id].name }}
+                                {% else %}
+                                    Unknown (ID: {{ entry.staff_id }})
+                                {% endif %}
+                            </td>
+                            <td>{{ entry.customer_name }}</td>
+                            <td>{{ entry.service }}</td>
+                            <td>${{ entry.amount }}</td>
+                            <td>
+                                {% if entry.staff_id in staff_dict %}
+                                    ${{ (entry.amount * staff_dict[entry.staff_id].commission_rate)|round(2) }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">No daily entries found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Add sorting functionality if needed
+        // $('#entriesTable').DataTable();
+    });
+</script>
+{% endblock %}

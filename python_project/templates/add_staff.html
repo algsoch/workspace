@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Staff - Vicky Hair Salon{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Add Staff Member</h1>
+        <a href="{{ url_for('staff_list') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i> Back to Staff List
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role</label>
+                    <select class="form-select" id="role" name="role" required>
+                        <option value="">Select a role</option>
+                        <option value="Owner">Owner</option>
+                        <option value="Stylist">Stylist</option>
+                        <option value="Assistant">Assistant</option>
+                        <option value="Colorist">Colorist</option>
+                        <option value="Receptionist">Receptionist</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="commission_rate" class="form-label">Commission Rate (%)</label>
+                    <input type="number" class="form-control" id="commission_rate" name="commission_rate" 
+                           min="0" max="100" step="5" value="50" required>
+                    <div class="form-text">Enter the percentage (0-100). For example, 50 means 50%.</div>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i> Save Staff Member
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Convert percentage to decimal when submitting
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const commissionInput = document.getElementById('commission_rate');
+        commissionInput.value = parseFloat(commissionInput.value) / 100;
+    });
+</script>
+{% endblock %}
